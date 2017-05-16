@@ -1,0 +1,47 @@
+stripe:
+  apiKey: empty      
+  currency: eur
+  description:  Galipizza
+
+company:
+  cashOnDeliveryAvaliable: true
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: $show-sql$
+    hibernate:
+      ddl-auto: $test.ddl-auto$
+  datasource:
+    driver-class-name: $test.driver$
+    platform: postgres
+    username: postgres
+    password: mabu
+    url: $test.url$
+    schema: classpath:/schema.sql
+
+server:
+  port: 8080
+ 
+jwt:
+  header: Authorization
+  secret: mabuSecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+      
+#Fichero Carga base de datos
+es:
+  mabu:
+    mr:
+      sql:
+        schema: schema.sql
+      file: 
+        root: FileStorage
+      exception:
+        common:
+          DuplicatedInstanceException: 1
+          NotValidMinPriceDeliveryException: 2
+        user:
+          InvalidUserException: 100

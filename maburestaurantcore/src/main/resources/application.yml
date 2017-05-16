@@ -1,0 +1,78 @@
+stripe:
+  apiKey: empty      
+  currency: eur
+  description:  Galipizza
+
+company:
+  cashOnDeliveryAvaliable: true
+  
+spring:
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: $ddl-auto$
+  datasource:
+    driver-class-name: $driver$
+    platform: postgres
+    username: postgres
+    password: mabu
+    url: $url$
+    initialize: $initialize$
+    data: $data$
+
+server:
+  port: 8080
+
+jwt:
+  header: Authorization
+  secret: mabuSecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
+  
+#Fichero Carga base de datos
+es:
+  mabu:
+    mr:
+      sql:
+        schema: schema.sql
+        data: $data$
+      file: 
+        root: FileStorage
+      exception:
+        common:
+          DuplicatedInstanceException: 1
+          NotValidMinPriceDeliveryException: 2
+          InvalidValueException: 3
+          NotFoundException: 4
+        user:
+          InvalidUserException: 100
+        product:
+          DuplicatedProductDetailsInProductException: 200
+          IncorrectProductOptionsException: 201
+          CategoryHasProductsException: 202
+          TaxeHasProductsException: 202
+        file:
+          StorageException: 300
+          StorageFileNotFoundException: 301
+          NotAnImageException: 302
+        order:
+          WrongStatusException: 400
+          OrderHasNoProductsException: 401
+          RestaurantHasNotThisService: 402
+          StripeCardException: 403
+          OrderCanNotBePaidException: 404
+          RestaurantNotAvaliableException: 405
+          CashOnDeliveryNotAvaliable: 406
+          ProductNotAvaliable: 407
+          OutsideAddressRestaurantException: 408
+        timetable:
+          TimeTableErrorException: 500
+            
+          
+          
+          
+          

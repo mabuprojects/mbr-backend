@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>maburestaurantcore</artifactId>
+	<packaging>war</packaging>
+
+	<name>maburestaurant</name>
+	<description>Demo project for Spring Boot</description>
+	<parent>
+		<groupId>es.mabu.mr</groupId>
+		<artifactId>maburestaurant</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<start-class>es.mabu.mr.MaburestaurantApplication</start-class>
+		<jjwt.version>0.7.0</jjwt.version>
+	</properties>
+
+
+
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!--Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate4</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.mobile</groupId>
+			<artifactId>spring-mobile-device</artifactId>
+		</dependency>
+		<!-- WebSocket -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<!-- JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<!-- Mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- Dev tools -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- https://stripe.com/docs/libraries -->
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>3.5.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+
+
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+
+				<configuration>
+
+					<encoding>UTF-8</encoding>
+					<delimiters>
+						<delimiter>$</delimiter>
+					</delimiters>
+					<useDefaultDelimiters>false</useDefaultDelimiters>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.7.201606060606</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+
+
+	</build>
+
+
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- Production Properties -->
+				<ddl-auto>validate</ddl-auto>
+				<driver>org.postgresql.Driver</driver>
+				<url>jdbc:postgresql://localhost:5432/MabuRestaurant</url>
+				<show-sql>false</show-sql>
+				<initialize>false</initialize>
+				<!-- Test Properties -->
+				<test.ddl-auto>validate</test.ddl-auto>
+				<test.driver>org.postgresql.Driver</test.driver>
+				<test.url>jdbc:postgresql://localhost:5432/MabuRestaurantTest</test.url>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>env-dev-init</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>dev-init</value>
+				</property>
+			</activation>
+			<properties>
+				<!-- Production Properties -->
+				<ddl-auto>validate</ddl-auto>
+				<driver>org.postgresql.Driver</driver>
+				<url>jdbc:postgresql://localhost:5432/MabuRestaurant</url>
+				<show-sql>false</show-sql>
+				<initialize>true</initialize>
+				<!-- Test Properties -->
+				<test.ddl-auto>validate</test.ddl-auto>
+				<test.driver>org.postgresql.Driver</test.driver>
+				<test.url>jdbc:postgresql://localhost:5432/MabuRestaurantTest</test.url>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>env-dev-init-data</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>dev-init-data</value>
+				</property>
+			</activation>
+			<properties>
+				<!-- Production Properties -->
+				<ddl-auto>validate</ddl-auto>
+				<driver>org.postgresql.Driver</driver>
+				<url>jdbc:postgresql://localhost:5432/MabuRestaurant</url>
+				<show-sql>false</show-sql>
+				<initialize>true</initialize>
+				<data>classpath:/datos.sql</data>
+				<!-- Test Properties -->
+				<test.ddl-auto>validate</test.ddl-auto>
+				<test.driver>org.postgresql.Driver</test.driver>
+				<test.url>jdbc:postgresql://localhost:5432/MabuRestaurantTest</test.url>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>env-jenkins</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>jenkins</value>
+				</property>
+			</activation>
+			<properties>
+				<!-- Production Properties -->
+				<ddl-auto>validate</ddl-auto>
+				<driver>org.postgresql.Driver</driver>
+				<url>jdbc:postgresql://localhost:5432/MabuRestaurant</url>
+				<show-sql>false</show-sql>
+				<initialize>false</initialize>
+				<!-- Test Properties -->
+				<test.ddl-auto>create</test.ddl-auto>
+				<test.driver>org.h2.Driver</test.driver>
+				<test.url>jdbc:h2:mem:test;MODE=PostgreSQL</test.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-raspb</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>raspb</value>
+				</property>
+			</activation>
+			<properties>
+				<!-- Production Properties -->
+				<test.ddl-auto>create</test.ddl-auto>
+				<driver>org.h2.Driver</driver>
+				<url>jdbc:h2:mem:test;MODE=PostgreSQL</url>
+				<show-sql>true</show-sql>
+				<data>datos.sql</data>
+				<initialize>true</initialize>
+				<data>classpath:/datos.sql</data>
+				<!-- Test Properties -->
+				<test.ddl-auto>create</test.ddl-auto>
+				<test.driver>org.h2.Driver</test.driver>
+				<test.url>jdbc:h2:mem:test;MODE=PostgreSQL</test.url>
+			</properties>
+		</profile>
+	</profiles>
+
+</project>
